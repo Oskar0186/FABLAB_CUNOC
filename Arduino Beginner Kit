@@ -1,0 +1,42 @@
+// Definición de pines y variables
+const int buttonPin = 2;     // Pin del pulsador
+const int buzzerPin = 6;     // Pin del zumbador
+const int ledPin = 3;        // Pin del LED
+const int potentiometerPin = A0;  // Pin analógico del potenciómetro
+
+int buttonState = 0;         // Variable para leer el estado del pulsador
+
+void setup() {
+    // Inicializa el pin del LED como salida
+    pinMode(ledPin, OUTPUT);
+    // Inicializa el pin del zumbador como salida
+    pinMode(buzzerPin, OUTPUT);
+    // Inicializa el pin del pulsador como entrada
+    pinMode(buttonPin, INPUT);
+}
+
+void loop() {
+    // Parte del botón y el zumbador
+    // Lee el estado del pulsador
+    buttonState = digitalRead(buttonPin);
+
+    // Si el pulsador está presionado (estado ALTO), enciende el zumbador
+    if (buttonState == HIGH) {
+        digitalWrite(buzzerPin, HIGH); // Enciende el buzzer
+    } else {
+        digitalWrite(buzzerPin, LOW);    // Si no, apaga el buzzer
+    }
+
+    // Parte del potenciómetro y el LED
+    // Lee el valor del potenciómetro (un valor entre 0 y 1023)
+    int sensorValue = analogRead(potentiometerPin);
+
+    // Mapea el valor del potenciómetro (0-1023) a un rango de brillo del LED (0-255)
+    int brightness = map(sensorValue, 0, 1023, 0, 255);
+
+    // Escribe el valor de brillo al LED usando PWM (Pin 3 es compatible)
+    analogWrite(ledPin, brightness);
+    
+    // Un pequeño retraso para estabilidad (opcional, pero útil)
+    delay(10);
+}
